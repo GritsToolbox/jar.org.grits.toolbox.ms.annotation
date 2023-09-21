@@ -566,6 +566,11 @@ public abstract class GlycanStructureAnnotation extends AnalyteStructureAnnotati
 	public boolean isCanceled() {
 		return bCancel;
 	}
+	
+	@Override
+	public void initializeSubScanMap() {
+		// do nothing
+	}
 
 }
 

@@ -3,6 +3,7 @@ package org.grits.toolbox.ms.annotation.gelato.glycan;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.grits.toolbox.ms.annotation.gelato.AnalyteMatcher;
@@ -24,6 +25,7 @@ import org.grits.toolbox.widgets.tools.GRITSProcessStatus;
 public class GlycanStructureAnnotationLCMSMS extends GlycanStructureAnnotation {
 	private static final Logger logger = Logger.getLogger(GlycanStructureAnnotationLCMSMS.class);
 	protected Data overviewData = null;
+	Map<Integer, List<Integer>> scanSubScanMap = new HashMap<>();
 
 	/**
 	 * @param data - a org.grits.toolbox.ms.om.data.Data to be used during annotation
@@ -32,7 +34,15 @@ public class GlycanStructureAnnotationLCMSMS extends GlycanStructureAnnotation {
 	 * @param msFile - String value for the full path to the mzXML/mzML file for this project
 	 */
 	public GlycanStructureAnnotationLCMSMS(Data data, String path, String archiveName, MSFile msFile) {
-		super(data, path, archiveName, msFile);
+		super(data, path, archiveName, msFile);		
+	}
+	
+	@Override
+	public void initializeSubScanMap() {
+		// initialize scan/subscan map
+		if (msFile.getReader() instanceof IMSAnnotationFileReader) {
+			scanSubScanMap = ((IMSAnnotationFileReader) msFile.getReader()).readMSFileForSubscans(msFile);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -41,7 +51,7 @@ public class GlycanStructureAnnotationLCMSMS extends GlycanStructureAnnotation {
 	@Override
 	protected HashMap<Integer, Scan> getScans(MSFile msFile, int _iScanNumber, double dFragCutoff, String sFragCutoffType, double dPreCutoff, String sPreCutoffType ) {
 		if (msFile.getReader() instanceof IMSAnnotationFileReader) {
-			List<Scan> scans = ((IMSAnnotationFileReader) msFile.getReader()).readMSFile(msFile, _iScanNumber);
+			List<Scan> scans = ((IMSAnnotationFileReader) msFile.getReader()).readMSFile(msFile, _iScanNumber, scanSubScanMap);
 			return GelatoUtils.listToHashMap(scans, dFragCutoff, sFragCutoffType, dPreCutoff, sPreCutoffType);
 		}
 		return null;

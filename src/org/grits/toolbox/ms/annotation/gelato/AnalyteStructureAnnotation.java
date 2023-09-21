@@ -79,6 +79,7 @@ public abstract class AnalyteStructureAnnotation implements INotifyingProcess {
 
 	protected abstract HashMap<Integer, Scan> getScans(MSFile msFile, int _iScanNumber, double dFragCutoff, String sFragCutoffType, double dPreCutoff, String sPreCutoffType );
 	public abstract List<Integer> determineScanBounds();
+	public abstract void initializeSubScanMap();
 	public abstract String getFinalArchiveName();
 	public abstract boolean needsOverview();	
 	public abstract String getOverviewFileName();
@@ -225,6 +226,7 @@ public abstract class AnalyteStructureAnnotation implements INotifyingProcess {
 	public void initialize() {
 		setProgressType(ProgressType.Indeterminant);
 		scansToProcess = determineScanBounds();
+		initializeSubScanMap();
 		setArchiveFilePaths();
 		iTotalSize = 0;
 		int iNumScans = scansToProcess.size();
