@@ -29,6 +29,6 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="lib" path="lib/jaxb-api-2.3.0.jar"/>
 	<classpathentry kind="lib" path="lib/jaxb-impl-2.3.0.jar"/>
-	<classpathentry kind="lib" path="lib/GRITS.file-0.1-b31.jar"/>
+	<classpathentry kind="lib" path="/Users/sena/grits-git/jar.org.grits.toolbox.ms.annotation/lib/GRITS.file-0.1-b35.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
